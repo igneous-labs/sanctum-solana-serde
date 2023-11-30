@@ -1,6 +1,6 @@
 #![cfg(feature = "utoipa")]
 
-use crate::{B58Pubkey, B58Signature, B64Buffer, B64LegacyTx, B64VersionedTx, U64Str};
+use crate::{B58Pubkey, B58Signature, B64Buffer, B64LegacyTx, B64VersionedTx, DecimalStr, U64Str};
 use utoipa::{
     openapi::{ObjectBuilder, RefOr, Schema, SchemaType},
     ToSchema,
@@ -73,6 +73,18 @@ impl<'a> ToSchema<'a> for U64Str {
             ObjectBuilder::new()
                 .schema_type(SchemaType::String)
                 .description(Some("unsigned 64-bit integer serialized as a string"))
+                .into(),
+        )
+    }
+}
+
+impl<'a> ToSchema<'a> for DecimalStr {
+    fn schema() -> (&'a str, RefOr<Schema>) {
+        (
+            "DecimalStr",
+            ObjectBuilder::new()
+                .schema_type(SchemaType::String)
+                .description(Some("decimal serialized as a string"))
                 .into(),
         )
     }

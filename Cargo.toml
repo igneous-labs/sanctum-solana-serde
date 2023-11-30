@@ -6,7 +6,6 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-base64 = "^0.21.5"
 bincode = "^1"
 bs58 = "^0.5.0"
 data-encoding = "^2.5.0"
@@ -19,6 +18,7 @@ derive_more = { version = "^0.99", default-features = false, features = [
   "into",
   "into_iterator",
 ] }
+rust_decimal = "^1.0"
 serde = "^1"
 solana-program = "~1.17"
 solana-sdk = "~1.17"
