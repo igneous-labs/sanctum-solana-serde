@@ -13,4 +13,4 @@ pub mod b64_legacy_tx;
 pub mod b64_versioned_tx;
 pub mod decimal_str;
 pub mod u64_str;
-pub mod utoipa;
+pub mod utoipa_schema;
