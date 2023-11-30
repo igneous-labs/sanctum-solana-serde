@@ -3,10 +3,6 @@ use serde::{
     de::{self, Visitor},
     Deserialize, Serialize,
 };
-use utoipa::{
-    openapi::{ObjectBuilder, RefOr, Schema, SchemaType},
-    ToSchema,
-};
 
 #[derive(Default, Clone, Copy, AsRef, AsMut, Deref, DerefMut)]
 pub struct U64Str(pub u64);
@@ -46,17 +42,5 @@ impl Serialize for U64Str {
         S: serde::Serializer,
     {
         serializer.serialize_str(&self.0.to_string())
-    }
-}
-
-impl<'a> ToSchema<'a> for U64Str {
-    fn schema() -> (&'a str, RefOr<Schema>) {
-        (
-            "U64Str",
-            ObjectBuilder::new()
-                .schema_type(SchemaType::String)
-                .description(Some("unsigned 64-bit integer serialized as a string"))
-                .into(),
-        )
     }
 }

@@ -1,10 +1,6 @@
 use derive_more::{AsMut, AsRef, Deref, DerefMut};
 use serde::{de, ser::Error, Deserialize, Serialize};
 use solana_sdk::transaction::VersionedTransaction;
-use utoipa::{
-    openapi::{ObjectBuilder, RefOr, Schema, SchemaType},
-    ToSchema,
-};
 
 use super::B64Buffer;
 
@@ -33,17 +29,5 @@ impl Serialize for B64VersionedTx {
             S::Error::custom(format!("Could not bincode serialize. Error: {:?}", e))
         })?;
         B64Buffer::serialize(&B64Buffer(buf), serializer)
-    }
-}
-
-impl<'a> ToSchema<'a> for B64VersionedTx {
-    fn schema() -> (&'a str, RefOr<Schema>) {
-        (
-            "B64VersionedTx",
-            ObjectBuilder::new()
-                .schema_type(SchemaType::String)
-                .description(Some("base-64 encoded versioned transaction. Encoded bytes can be created by calling `transaction.serialize()` in `@solana/web3.js`"))
-                .into()
-        )
     }
 }

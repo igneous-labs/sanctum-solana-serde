@@ -4,10 +4,6 @@ use serde::{
     Deserialize, Serialize,
 };
 use solana_sdk::{bs58, signature::Signature};
-use utoipa::{
-    openapi::{ObjectBuilder, RefOr, Schema, SchemaType},
-    ToSchema,
-};
 
 #[derive(Clone, Copy, Debug, AsRef, Deref)]
 pub struct B58Signature(pub Signature);
@@ -49,17 +45,5 @@ impl Serialize for B58Signature {
         S: serde::Serializer,
     {
         serializer.serialize_str(&bs58::encode(self.0).into_string())
-    }
-}
-
-impl<'a> ToSchema<'a> for B58Signature {
-    fn schema() -> (&'a str, RefOr<Schema>) {
-        (
-            "B58Pubkey",
-            ObjectBuilder::new()
-                .schema_type(SchemaType::String)
-                .description(Some("base-58 encoded signature"))
-                .into(),
-        )
     }
 }

@@ -1,12 +1,9 @@
-use base64::{engine::general_purpose, Engine};
+// use base64::{engine::general_purpose, Engine};
+use data_encoding::BASE64;
 use derive_more::{AsMut, AsRef, Deref, DerefMut, IntoIterator};
 use serde::{
     de::{self, Visitor},
     Deserialize, Serialize,
-};
-use utoipa::{
-    openapi::{ObjectBuilder, RefOr, Schema, SchemaType},
-    ToSchema,
 };
 
 #[derive(Clone, AsRef, AsMut, Deref, DerefMut, IntoIterator)]
@@ -25,8 +22,8 @@ impl<'de> Visitor<'de> for B64BufferVistor {
     where
         E: de::Error,
     {
-        let bytes = general_purpose::STANDARD
-            .decode(value)
+        let bytes = BASE64
+            .decode(value.as_bytes())
             .map_err(|e| de::Error::custom(format!("invalid base-64 string. Error: {:?}", e)))?;
         Ok(B64Buffer(bytes))
     }
@@ -46,18 +43,6 @@ impl Serialize for B64Buffer {
     where
         S: serde::Serializer,
     {
-        serializer.serialize_str(&general_purpose::STANDARD.encode(self.as_ref()))
-    }
-}
-
-impl<'a> ToSchema<'a> for B64Buffer {
-    fn schema() -> (&'a str, RefOr<Schema>) {
-        (
-            "B64Buffer",
-            ObjectBuilder::new()
-                .schema_type(SchemaType::String)
-                .description(Some("base-64 encoded byte buffer"))
-                .into(),
-        )
+        serializer.serialize_str(&BASE64.encode(self.as_ref()))
     }
 }

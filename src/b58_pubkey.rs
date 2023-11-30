@@ -4,10 +4,6 @@ use serde::{
     Deserialize, Serialize,
 };
 use solana_program::pubkey::Pubkey;
-use utoipa::{
-    openapi::{ObjectBuilder, RefOr, Schema, SchemaType},
-    ToSchema,
-};
 
 #[derive(Default, Clone, Copy, AsRef, AsMut, Deref, DerefMut)]
 pub struct B58Pubkey(pub Pubkey);
@@ -49,17 +45,5 @@ impl Serialize for B58Pubkey {
         S: serde::Serializer,
     {
         serializer.serialize_str(&bs58::encode(self.as_ref()).into_string())
-    }
-}
-
-impl<'a> ToSchema<'a> for B58Pubkey {
-    fn schema() -> (&'a str, RefOr<Schema>) {
-        (
-            "B58Pubkey",
-            ObjectBuilder::new()
-                .schema_type(SchemaType::String)
-                .description(Some("base-58 encoded pubkey"))
-                .into(),
-        )
     }
 }
