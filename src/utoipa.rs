@@ -1,6 +1,6 @@
 #![cfg(feature = "utoipa")]
 
-use crate::{B58Pubkey, B58Signature, B64Buffer, B64LegacyTx, B64VersionedTx, DecimalStr, U64Str};
+use super::{B58Pubkey, B58Signature, B64Buffer, B64LegacyTx, B64VersionedTx, DecimalStr, U64Str};
 use utoipa::{
     openapi::{ObjectBuilder, RefOr, Schema, SchemaType},
     ToSchema,

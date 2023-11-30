@@ -5,7 +5,6 @@ pub use b64_legacy_tx::*;
 pub use b64_versioned_tx::*;
 pub use decimal_str::*;
 pub use u64_str::*;
-pub use utoipa::*;
 
 pub mod b58_pubkey;
 pub mod b58_signature;
