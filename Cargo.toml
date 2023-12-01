@@ -1,6 +1,6 @@
 [package]
 name = "sanctum-solana-serde"
-version = "0.1.0"
+version = "1.0.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -20,6 +20,6 @@ derive_more = { version = "^0.99", default-features = false, features = [
 ] }
 rust_decimal = "^1.0"
 serde = "^1"
-solana-program = "~1.17"
-solana-sdk = "~1.17"
+solana-program = "*"
+solana-sdk = "*"
 utoipa = { version = "^4", optional = true }
