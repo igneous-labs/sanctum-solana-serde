@@ -11,6 +11,10 @@ categories = ["Web programming", "HTTP client", "HTTP server"]
 
 include = ["/src", "/tests", "/README.md"]
 
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
 [features]
 default = [
   "b58_pubkey",
