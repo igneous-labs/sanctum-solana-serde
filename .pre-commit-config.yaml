@@ -1,0 +1,9 @@
+default_stages: [commit]
+repos:
+  - repo: https://github.com/doublify/pre-commit-rust
+    rev: v1.0
+    hooks:
+      - id: fmt
+        args: ["--all", "--"]
+      - id: clippy
+        args: ["--fix", "--", "-D", "clippy::all"]
