@@ -403,15 +403,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "771fe0050b883fcc3ea2359b1a96bcfbc090b7116eae7c3c512c7a083fdf23d3"
 
 [[package]]
-name = "bs58"
-version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f5353f36341f7451062466f0b755b96ac3a9547e4d7f6b70d603fc721a7d7896"
-dependencies = [
- "tinyvec",
-]
-
-[[package]]
 name = "bumpalo"
 version = "3.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1562,7 +1553,7 @@ name = "sanctum-solana-serde"
 version = "1.0.0"
 dependencies = [
  "bincode",
- "bs58 0.5.0",
+ "bs58",
  "data-encoding",
  "derive_more",
  "rust_decimal",
@@ -1723,7 +1714,7 @@ dependencies = [
  "ahash 0.8.6",
  "blake3",
  "block-buffer 0.10.4",
- "bs58 0.4.0",
+ "bs58",
  "bv",
  "byteorder",
  "cc",
@@ -1783,7 +1774,7 @@ dependencies = [
  "blake3",
  "borsh 0.10.3",
  "borsh 0.9.3",
- "bs58 0.4.0",
+ "bs58",
  "bv",
  "bytemuck",
  "cc",
@@ -1832,7 +1823,7 @@ dependencies = [
  "bincode",
  "bitflags 2.4.1",
  "borsh 0.10.3",
- "bs58 0.4.0",
+ "bs58",
  "bytemuck",
  "byteorder",
  "chrono",
@@ -1881,7 +1872,7 @@ version = "1.17.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "677d2dc1bb2f24d0998f44c8c6511250a8005f504c29a6ccbf874fcee5a8ade7"
 dependencies = [
- "bs58 0.4.0",
+ "bs58",
  "proc-macro2",
  "quote",
  "rustversion",

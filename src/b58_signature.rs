@@ -1,11 +1,26 @@
-use derive_more::{AsRef, Deref};
+use derive_more::{AsMut, AsRef, Deref, DerefMut, From, Into};
 use serde::{
     de::{self, Visitor},
     Deserialize, Serialize,
 };
 use solana_sdk::{bs58, signature::Signature};
 
-#[derive(Clone, Copy, Debug, AsRef, Deref)]
+#[derive(
+    Clone,
+    Copy,
+    Default,
+    PartialEq,
+    Eq,
+    PartialOrd,
+    Ord,
+    Hash,
+    AsMut,
+    AsRef,
+    Deref,
+    DerefMut,
+    From,
+    Into,
+)]
 pub struct B58Signature(pub Signature);
 
 struct B58SignatureVistor;

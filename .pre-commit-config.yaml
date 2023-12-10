@@ -6,4 +6,4 @@ repos:
       - id: fmt
         args: ["--all", "--"]
       - id: clippy
-        args: ["--all-targets", "--", "-D", "clippy::all"]
+        args: ["--all-features", "--tests", "--", "-D", "clippy::all"]

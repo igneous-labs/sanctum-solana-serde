@@ -1,11 +1,26 @@
-use derive_more::{AsMut, AsRef, Deref, DerefMut};
+use derive_more::{AsMut, AsRef, Deref, DerefMut, From, Into};
 use serde::{
     de::{self, Visitor},
     Deserialize, Serialize,
 };
 use solana_program::pubkey::Pubkey;
 
-#[derive(Default, Clone, Copy, AsRef, AsMut, Deref, DerefMut)]
+#[derive(
+    Clone,
+    Copy,
+    Default,
+    PartialEq,
+    Eq,
+    PartialOrd,
+    Ord,
+    Hash,
+    AsRef,
+    AsMut,
+    Deref,
+    DerefMut,
+    From,
+    Into,
+)]
 pub struct B58Pubkey(pub Pubkey);
 
 struct B58PubkeyVistor;

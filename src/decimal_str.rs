@@ -1,11 +1,26 @@
-use derive_more::{AsMut, AsRef, Deref, DerefMut};
+use derive_more::{AsMut, AsRef, Deref, DerefMut, From, Into};
 use rust_decimal::Decimal;
 use serde::{
     de::{self, Visitor},
     Deserialize, Serialize,
 };
 
-#[derive(Clone, Copy, AsRef, AsMut, Deref, DerefMut)]
+#[derive(
+    Clone,
+    Copy,
+    Default,
+    PartialEq,
+    Eq,
+    PartialOrd,
+    Ord,
+    Hash,
+    AsMut,
+    AsRef,
+    Deref,
+    DerefMut,
+    From,
+    Into,
+)]
 pub struct DecimalStr(pub Decimal);
 
 struct DecimalStrVistor;

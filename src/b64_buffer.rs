@@ -1,11 +1,26 @@
 use data_encoding::BASE64;
-use derive_more::{AsMut, AsRef, Deref, DerefMut, IntoIterator};
+use derive_more::{AsMut, AsRef, Deref, DerefMut, From, Into, IntoIterator};
 use serde::{
     de::{self, Visitor},
     Deserialize, Serialize,
 };
 
-#[derive(Clone, AsRef, AsMut, Deref, DerefMut, IntoIterator)]
+#[derive(
+    Clone,
+    Default,
+    PartialEq,
+    Eq,
+    PartialOrd,
+    Ord,
+    Hash,
+    AsMut,
+    AsRef,
+    Deref,
+    DerefMut,
+    From,
+    Into,
+    IntoIterator,
+)]
 pub struct B64Buffer(pub Vec<u8>);
 
 struct B64BufferVistor;

@@ -1,10 +1,25 @@
-use derive_more::{AsMut, AsRef, Deref, DerefMut};
+use derive_more::{AsMut, AsRef, Deref, DerefMut, From, Into};
 use serde::{
     de::{self, Visitor},
     Deserialize, Serialize,
 };
 
-#[derive(Default, Clone, Copy, AsRef, AsMut, Deref, DerefMut)]
+#[derive(
+    Clone,
+    Copy,
+    Default,
+    PartialEq,
+    Eq,
+    PartialOrd,
+    Ord,
+    Hash,
+    AsMut,
+    AsRef,
+    Deref,
+    DerefMut,
+    From,
+    Into,
+)]
 pub struct U64Str(pub u64);
 
 struct U64StrVistor;

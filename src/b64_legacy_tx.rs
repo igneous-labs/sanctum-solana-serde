@@ -1,10 +1,10 @@
-use derive_more::{AsMut, AsRef, Deref, DerefMut};
+use derive_more::{AsMut, AsRef, Deref, DerefMut, From, Into};
 use serde::{de, ser::Error, Deserialize, Serialize};
 use solana_sdk::transaction::Transaction;
 
-use super::B64Buffer;
+use super::b64_buffer::B64Buffer;
 
-#[derive(Clone, AsRef, AsMut, Deref, DerefMut)]
+#[derive(Clone, Default, PartialEq, Eq, AsMut, AsRef, Deref, DerefMut, From, Into)]
 pub struct B64LegacyTx(pub Transaction);
 
 impl<'de> Deserialize<'de> for B64LegacyTx {

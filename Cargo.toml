@@ -9,22 +9,56 @@ readme = "README.md"
 keywords = ["solana", "serde"]
 categories = ["Web programming", "HTTP client", "HTTP server"]
 
+include = ["/src", "/tests", "/README.md"]
+
+[features]
+default = [
+  "b58_pubkey",
+  "b58_signature",
+  "b64_buffer",
+  "b64_legacy_tx",
+  "b64_versioned_tx",
+  "decimal_str",
+  "u64_str",
+]
+derive_more_simple_newtype = [
+  "derive_more/as_mut",
+  "derive_more/as_ref",
+  "derive_more/deref",
+  "derive_more/deref_mut",
+  "derive_more/from",
+  "derive_more/into",
+]
+b58_pubkey = ["bs58", "solana-program", "derive_more_simple_newtype"]
+b58_signature = ["solana-sdk", "derive_more_simple_newtype"]
+b64_buffer = [
+  "data-encoding",
+  "derive_more_simple_newtype",
+  "derive_more/into_iterator",
+]
+b64_legacy_tx = [
+  "b64_buffer",
+  "bincode",
+  "solana-sdk",
+  "derive_more_simple_newtype",
+]
+b64_versioned_tx = [
+  "b64_buffer",
+  "bincode",
+  "solana-sdk",
+  "derive_more_simple_newtype",
+]
+decimal_str = ["rust_decimal", "derive_more_simple_newtype"]
+u64_str = ["derive_more_simple_newtype"]
+
 [dependencies]
-bincode = "^1"
-bs58 = "*"           # using 0.5.0 for development
-data-encoding = "^2"
+bincode = { version = "^1", optional = true }
+bs58 = { version = "*", optional = true }
+data-encoding = { version = "^2", optional = true }
 # into_iterator introduced in 0.99
-derive_more = { version = ">=0.99", default-features = false, features = [
-  "as_mut",
-  "as_ref",
-  "deref",
-  "deref_mut",
-  "from",
-  "into",
-  "into_iterator",
-] }
-rust_decimal = "^1"
+derive_more = { version = ">=0.99", default-features = false, optional = true }
+rust_decimal = { version = "^1", optional = true }
 serde = "^1"
-solana-program = "*"
-solana-sdk = "*"
+solana-program = { version = "*", optional = true }
+solana-sdk = { version = "*", optional = true }
 utoipa = { version = "^4", optional = true }

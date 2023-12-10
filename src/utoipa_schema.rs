@@ -1,36 +1,36 @@
-#![cfg(feature = "utoipa")]
-
-use super::{B58Pubkey, B58Signature, B64Buffer, B64LegacyTx, B64VersionedTx, DecimalStr, U64Str};
 use utoipa::{
     openapi::{ObjectBuilder, RefOr, Schema, SchemaType},
     ToSchema,
 };
 
-impl<'a> ToSchema<'a> for B58Pubkey {
+#[cfg(feature = "b58_pubkey")]
+impl<'a> ToSchema<'a> for crate::b58_pubkey::B58Pubkey {
     fn schema() -> (&'a str, RefOr<Schema>) {
         (
             "B58Pubkey",
             ObjectBuilder::new()
                 .schema_type(SchemaType::String)
-                .description(Some("base-58 encoded pubkey"))
+                .description(Some("base-58 encoded solana pubkey"))
                 .into(),
         )
     }
 }
 
-impl<'a> ToSchema<'a> for B58Signature {
+#[cfg(feature = "b58_signature")]
+impl<'a> ToSchema<'a> for crate::b58_signature::B58Signature {
     fn schema() -> (&'a str, RefOr<Schema>) {
         (
-            "B58Pubkey",
+            "B58Signature",
             ObjectBuilder::new()
                 .schema_type(SchemaType::String)
-                .description(Some("base-58 encoded signature"))
+                .description(Some("base-58 encoded solana signature"))
                 .into(),
         )
     }
 }
 
-impl<'a> ToSchema<'a> for B64Buffer {
+#[cfg(feature = "b64_buffer")]
+impl<'a> ToSchema<'a> for crate::b64_buffer::B64Buffer {
     fn schema() -> (&'a str, RefOr<Schema>) {
         (
             "B64Buffer",
@@ -42,31 +42,34 @@ impl<'a> ToSchema<'a> for B64Buffer {
     }
 }
 
-impl<'a> ToSchema<'a> for B64LegacyTx {
+#[cfg(feature = "b64_legacy_tx")]
+impl<'a> ToSchema<'a> for crate::b64_legacy_tx::B64LegacyTx {
     fn schema() -> (&'a str, RefOr<Schema>) {
         (
           "B64LegacyTx",
           ObjectBuilder::new()
               .schema_type(SchemaType::String)
-              .description(Some("base-64 encoded legacy transaction. Can be created by calling `transaction.serialize()` in `@solana/web3.js`"))
+              .description(Some("base-64 encoded solana legacy transaction. Can be created by calling `transaction.serialize()` in `@solana/web3.js`"))
               .into()
       )
     }
 }
 
-impl<'a> ToSchema<'a> for B64VersionedTx {
+#[cfg(feature = "b64_versioned_tx")]
+impl<'a> ToSchema<'a> for crate::b64_versioned_tx::B64VersionedTx {
     fn schema() -> (&'a str, RefOr<Schema>) {
         (
           "B64VersionedTx",
           ObjectBuilder::new()
               .schema_type(SchemaType::String)
-              .description(Some("base-64 encoded versioned transaction. Encoded bytes can be created by calling `transaction.serialize()` in `@solana/web3.js`"))
+              .description(Some("base-64 encoded solana versioned transaction. Encoded bytes can be created by calling `transaction.serialize()` in `@solana/web3.js`"))
               .into()
       )
     }
 }
 
-impl<'a> ToSchema<'a> for U64Str {
+#[cfg(feature = "u64_str")]
+impl<'a> ToSchema<'a> for crate::u64_str::U64Str {
     fn schema() -> (&'a str, RefOr<Schema>) {
         (
             "U64Str",
@@ -78,13 +81,14 @@ impl<'a> ToSchema<'a> for U64Str {
     }
 }
 
-impl<'a> ToSchema<'a> for DecimalStr {
+#[cfg(feature = "decimal_str")]
+impl<'a> ToSchema<'a> for crate::decimal_str::DecimalStr {
     fn schema() -> (&'a str, RefOr<Schema>) {
         (
             "DecimalStr",
             ObjectBuilder::new()
                 .schema_type(SchemaType::String)
-                .description(Some("decimal serialized as a string"))
+                .description(Some("rust decimal serialized as a string"))
                 .into(),
         )
     }
