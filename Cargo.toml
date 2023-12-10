@@ -29,7 +29,7 @@ derive_more_simple_newtype = [
   "derive_more/from",
   "derive_more/into",
 ]
-b58_pubkey = ["bs58", "solana-program", "derive_more_simple_newtype"]
+b58_pubkey = ["solana-program", "derive_more_simple_newtype"]
 b58_signature = ["solana-sdk", "derive_more_simple_newtype"]
 b64_buffer = [
   "data-encoding",
@@ -55,7 +55,6 @@ u64_str = ["derive_more_simple_newtype"]
 
 [dependencies]
 bincode = { version = "^1", optional = true }
-bs58 = { version = "*", optional = true }
 data-encoding = { version = "^2", optional = true }
 # into_iterator introduced in 0.99
 derive_more = { version = ">=0.99", default-features = false, optional = true }

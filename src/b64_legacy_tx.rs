@@ -26,7 +26,7 @@ impl Serialize for B64LegacyTx {
     where
         S: serde::Serializer,
     {
-        let buf = bincode::serialize(self.as_ref()).map_err(|e| {
+        let buf = bincode::serialize(&self.0).map_err(|e| {
             S::Error::custom(format!("Could not bincode serialize. Error: {:?}", e))
         })?;
         B64Buffer::serialize(&B64Buffer(buf), serializer)
@@ -35,6 +35,7 @@ impl Serialize for B64LegacyTx {
 
 #[cfg(test)]
 mod tests {
+    use data_encoding::BASE64;
     use solana_program::{pubkey::Pubkey, system_instruction};
 
     pub use super::*;
@@ -50,6 +51,8 @@ mod tests {
         let ser = serde_json::to_string(&B64LegacyTx(actual.clone())).unwrap();
         assert!(ser.starts_with('"'));
         assert!(ser.ends_with('"'));
+        // ensure valid base64
+        BASE64.decode(ser[1..ser.len() - 1].as_bytes()).unwrap();
 
         let de: B64LegacyTx = serde_json::from_str(&ser).unwrap();
         assert_eq!(*de, actual);

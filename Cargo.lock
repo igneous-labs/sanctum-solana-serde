@@ -1553,7 +1553,6 @@ name = "sanctum-solana-serde"
 version = "1.0.0"
 dependencies = [
  "bincode",
- "bs58",
  "data-encoding",
  "derive_more",
  "rust_decimal",

@@ -35,6 +35,7 @@ impl Serialize for B64VersionedTx {
 
 #[cfg(test)]
 mod tests {
+    use data_encoding::BASE64;
     use solana_program::{
         hash::Hash,
         message::{self, VersionedMessage},
@@ -63,6 +64,8 @@ mod tests {
         let ser = serde_json::to_string(&B64VersionedTx(actual.clone())).unwrap();
         assert!(ser.starts_with('"'));
         assert!(ser.ends_with('"'));
+        // ensure valid base64
+        BASE64.decode(ser[1..ser.len() - 1].as_bytes()).unwrap();
 
         let de: B64VersionedTx = serde_json::from_str(&ser).unwrap();
         assert_eq!(*de, actual);

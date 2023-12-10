@@ -1,3 +1,5 @@
+use std::str::FromStr;
+
 use derive_more::{AsMut, AsRef, Deref, DerefMut, From, Into};
 use serde::{
     de::{self, Visitor},
@@ -37,12 +39,9 @@ impl<'de> Visitor<'de> for B58PubkeyVistor {
     where
         E: de::Error,
     {
-        let bytes = bs58::decode(value)
-            .into_vec()
-            .map_err(|e| de::Error::custom(format!("invalid base-58 string. Error: {:?}", e)))?;
-        let bytes_arr = <[u8; 32]>::try_from(<&[u8]>::clone(&&bytes[..]))
-            .map_err(|e| de::Error::custom(format!("Not 256-bit long. Error: {:?}", e)))?;
-        Ok(B58Pubkey(Pubkey::new_from_array(bytes_arr)))
+        let pk = Pubkey::from_str(value)
+            .map_err(|e| de::Error::custom(format!("Pubkey from_str error: {:?}", e)))?;
+        Ok(B58Pubkey(pk))
     }
 }
 
@@ -60,7 +59,7 @@ impl Serialize for B58Pubkey {
     where
         S: serde::Serializer,
     {
-        serializer.serialize_str(&bs58::encode(self.as_ref()).into_string())
+        serializer.serialize_str(&self.0.to_string())
     }
 }
 
