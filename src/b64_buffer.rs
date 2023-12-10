@@ -1,4 +1,3 @@
-// use base64::{engine::general_purpose, Engine};
 use data_encoding::BASE64;
 use derive_more::{AsMut, AsRef, Deref, DerefMut, IntoIterator};
 use serde::{
