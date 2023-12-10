@@ -1,3 +1,5 @@
+#![doc = include_str!("../README.md")]
+
 #[cfg(feature = "utoipa")]
 pub mod utoipa_schema;
 
