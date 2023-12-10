@@ -4,6 +4,7 @@ use solana_sdk::transaction::Transaction;
 
 use super::b64_buffer::B64Buffer;
 
+/// base-64 encoded solana legacy transaction
 #[derive(Clone, Default, PartialEq, Eq, AsMut, AsRef, Deref, DerefMut, From, Into)]
 pub struct B64LegacyTx(pub Transaction);
 
@@ -29,5 +30,28 @@ impl Serialize for B64LegacyTx {
             S::Error::custom(format!("Could not bincode serialize. Error: {:?}", e))
         })?;
         B64Buffer::serialize(&B64Buffer(buf), serializer)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use solana_program::{pubkey::Pubkey, system_instruction};
+
+    pub use super::*;
+
+    #[test]
+    pub fn b64_legacy_tx_serde_round_trip() {
+        let payer = Pubkey::new_unique();
+        let actual = Transaction::new_with_payer(
+            &[system_instruction::transfer(&payer, &payer, 69)],
+            Some(&payer),
+        );
+
+        let ser = serde_json::to_string(&B64LegacyTx(actual.clone())).unwrap();
+        assert!(ser.starts_with('"'));
+        assert!(ser.ends_with('"'));
+
+        let de: B64LegacyTx = serde_json::from_str(&ser).unwrap();
+        assert_eq!(*de, actual);
     }
 }

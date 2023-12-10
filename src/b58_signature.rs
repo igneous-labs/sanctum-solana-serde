@@ -5,6 +5,7 @@ use serde::{
 };
 use solana_sdk::{bs58, signature::Signature};
 
+/// base-58 encoded solana signature string
 #[derive(
     Clone,
     Copy,
@@ -60,5 +61,21 @@ impl Serialize for B58Signature {
         S: serde::Serializer,
     {
         serializer.serialize_str(&bs58::encode(self.0).into_string())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    pub use super::*;
+
+    #[test]
+    pub fn b58_signature_serde_round_trip() {
+        let actual = Signature::new_unique();
+
+        let ser = serde_json::to_string(&B58Signature(actual)).unwrap();
+        assert_eq!(ser, format!("\"{}\"", actual));
+
+        let de: B58Signature = serde_json::from_str(&ser).unwrap();
+        assert_eq!(*de, actual);
     }
 }

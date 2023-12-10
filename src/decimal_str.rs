@@ -5,6 +5,7 @@ use serde::{
     Deserialize, Serialize,
 };
 
+/// rust decimal serialized as a string
 #[derive(
     Clone,
     Copy,
@@ -58,5 +59,21 @@ impl Serialize for DecimalStr {
         S: serde::Serializer,
     {
         serializer.serialize_str(&self.0.to_string())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    pub use super::*;
+
+    #[test]
+    pub fn decimal_str_serde_round_trip() {
+        let actual: Decimal = Decimal::from_f64_retain(std::f64::consts::PI).unwrap();
+
+        let ser = serde_json::to_string(&DecimalStr(actual)).unwrap();
+        assert_eq!(ser, format!("\"{}\"", actual));
+
+        let de: DecimalStr = serde_json::from_str(&ser).unwrap();
+        assert_eq!(*de, actual);
     }
 }

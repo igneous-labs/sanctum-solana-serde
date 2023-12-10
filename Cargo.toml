@@ -40,12 +40,14 @@ b64_legacy_tx = [
   "b64_buffer",
   "bincode",
   "solana-sdk",
+  "solana-program",             # only used for tests. Part of solana-sdk anyway, so no cost
   "derive_more_simple_newtype",
 ]
 b64_versioned_tx = [
   "b64_buffer",
   "bincode",
   "solana-sdk",
+  "solana-program",             # only used for tests. Part of solana-sdk anyway, so no cost
   "derive_more_simple_newtype",
 ]
 decimal_str = ["rust_decimal", "derive_more_simple_newtype"]
@@ -62,3 +64,6 @@ serde = "^1"
 solana-program = { version = "*", optional = true }
 solana-sdk = { version = "*", optional = true }
 utoipa = { version = "^4", optional = true }
+
+[dev-dependencies]
+serde_json = "^1"

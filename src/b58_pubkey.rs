@@ -5,6 +5,7 @@ use serde::{
 };
 use solana_program::pubkey::Pubkey;
 
+/// base-58 encoded solana pubkey string
 #[derive(
     Clone,
     Copy,
@@ -60,5 +61,21 @@ impl Serialize for B58Pubkey {
         S: serde::Serializer,
     {
         serializer.serialize_str(&bs58::encode(self.as_ref()).into_string())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    pub use super::*;
+
+    #[test]
+    pub fn b58_pubkey_serde_round_trip() {
+        let actual = Pubkey::new_unique();
+
+        let ser = serde_json::to_string(&B58Pubkey(actual)).unwrap();
+        assert_eq!(ser, format!("\"{}\"", actual));
+
+        let de: B58Pubkey = serde_json::from_str(&ser).unwrap();
+        assert_eq!(*de, actual);
     }
 }

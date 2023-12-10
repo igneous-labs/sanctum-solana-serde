@@ -5,6 +5,7 @@ use serde::{
     Deserialize, Serialize,
 };
 
+/// base-64 encoded byte buffer
 #[derive(
     Clone,
     Default,
@@ -58,5 +59,21 @@ impl Serialize for B64Buffer {
         S: serde::Serializer,
     {
         serializer.serialize_str(&BASE64.encode(self.as_ref()))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    pub use super::*;
+
+    #[test]
+    pub fn b64_buffer_serde_round_trip() {
+        let actual: Vec<u8> = vec![0, 1, 2, 3, 4, 5];
+
+        let ser = serde_json::to_string(&B64Buffer(actual.clone())).unwrap();
+        assert_eq!(ser, format!("\"{}\"", BASE64.encode(&actual)));
+
+        let de: B64Buffer = serde_json::from_str(&ser).unwrap();
+        assert_eq!(*de, actual);
     }
 }
