@@ -65,8 +65,8 @@ data-encoding = { version = "^2", optional = true }
 derive_more = { version = ">=0.99", default-features = false, optional = true }
 rust_decimal = { version = "^1", optional = true }
 serde = "^1"
-solana-program = { version = "*", optional = true }
-solana-sdk = { version = "*", optional = true }
+solana-program = { version = "^1", optional = true }
+solana-sdk = { version = "^1", optional = true }
 utoipa = { version = "^4", optional = true }
 
 [dev-dependencies]
