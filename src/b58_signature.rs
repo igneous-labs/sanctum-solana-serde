@@ -1,11 +1,29 @@
-use derive_more::{AsRef, Deref};
+use std::str::FromStr;
+
+use derive_more::{AsMut, AsRef, Deref, DerefMut, From, Into};
 use serde::{
     de::{self, Visitor},
     Deserialize, Serialize,
 };
-use solana_sdk::{bs58, signature::Signature};
+use solana_sdk::signature::Signature;
 
-#[derive(Clone, Copy, Debug, AsRef, Deref)]
+/// base-58 encoded solana signature string
+#[derive(
+    Clone,
+    Copy,
+    Default,
+    PartialEq,
+    Eq,
+    PartialOrd,
+    Ord,
+    Hash,
+    AsMut,
+    AsRef,
+    Deref,
+    DerefMut,
+    From,
+    Into,
+)]
 pub struct B58Signature(pub Signature);
 
 struct B58SignatureVistor;
@@ -21,12 +39,9 @@ impl<'de> Visitor<'de> for B58SignatureVistor {
     where
         E: de::Error,
     {
-        let bytes = bs58::decode(value)
-            .into_vec()
-            .map_err(|e| de::Error::custom(format!("invalid base-58 string. Error: {:?}", e)))?;
-        let bytes_arr = <[u8; 64]>::try_from(<&[u8]>::clone(&&bytes[..]))
-            .map_err(|e| de::Error::custom(format!("Not 512-bit long. Error: {:?}", e)))?;
-        Ok(B58Signature(Signature::try_from(bytes_arr).unwrap()))
+        let sig = Signature::from_str(value)
+            .map_err(|e| de::Error::custom(format!("Signature from_str error: {:?}", e)))?;
+        Ok(B58Signature(sig))
     }
 }
 
@@ -44,6 +59,22 @@ impl Serialize for B58Signature {
     where
         S: serde::Serializer,
     {
-        serializer.serialize_str(&bs58::encode(self.0).into_string())
+        serializer.serialize_str(&self.0.to_string())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    pub use super::*;
+
+    #[test]
+    pub fn b58_signature_serde_round_trip() {
+        let actual = Signature::new_unique();
+
+        let ser = serde_json::to_string(&B58Signature(actual)).unwrap();
+        assert_eq!(ser, format!("\"{}\"", actual));
+
+        let de: B58Signature = serde_json::from_str(&ser).unwrap();
+        assert_eq!(*de, actual);
     }
 }

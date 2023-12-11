@@ -1,10 +1,26 @@
-use derive_more::{AsMut, AsRef, Deref, DerefMut};
+use derive_more::{AsMut, AsRef, Deref, DerefMut, From, Into};
 use serde::{
     de::{self, Visitor},
     Deserialize, Serialize,
 };
 
-#[derive(Default, Clone, Copy, AsRef, AsMut, Deref, DerefMut)]
+/// unsigned 64-bit integer serialized as a string
+#[derive(
+    Clone,
+    Copy,
+    Default,
+    PartialEq,
+    Eq,
+    PartialOrd,
+    Ord,
+    Hash,
+    AsMut,
+    AsRef,
+    Deref,
+    DerefMut,
+    From,
+    Into,
+)]
 pub struct U64Str(pub u64);
 
 struct U64StrVistor;
@@ -42,5 +58,21 @@ impl Serialize for U64Str {
         S: serde::Serializer,
     {
         serializer.serialize_str(&self.0.to_string())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    pub use super::*;
+
+    #[test]
+    pub fn u64_str_serde_roundtrip() {
+        let actual = 2134324u64;
+
+        let ser = serde_json::to_string(&U64Str(actual)).unwrap();
+        assert_eq!(ser, format!("\"{}\"", actual));
+
+        let de: U64Str = serde_json::from_str(&ser).unwrap();
+        assert_eq!(*de, actual);
     }
 }

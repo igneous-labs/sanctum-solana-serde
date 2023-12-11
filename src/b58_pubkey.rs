@@ -1,11 +1,29 @@
-use derive_more::{AsMut, AsRef, Deref, DerefMut};
+use std::str::FromStr;
+
+use derive_more::{AsMut, AsRef, Deref, DerefMut, From, Into};
 use serde::{
     de::{self, Visitor},
     Deserialize, Serialize,
 };
 use solana_program::pubkey::Pubkey;
 
-#[derive(Default, Clone, Copy, AsRef, AsMut, Deref, DerefMut)]
+/// base-58 encoded solana pubkey string
+#[derive(
+    Clone,
+    Copy,
+    Default,
+    PartialEq,
+    Eq,
+    PartialOrd,
+    Ord,
+    Hash,
+    AsRef,
+    AsMut,
+    Deref,
+    DerefMut,
+    From,
+    Into,
+)]
 pub struct B58Pubkey(pub Pubkey);
 
 struct B58PubkeyVistor;
@@ -21,12 +39,9 @@ impl<'de> Visitor<'de> for B58PubkeyVistor {
     where
         E: de::Error,
     {
-        let bytes = bs58::decode(value)
-            .into_vec()
-            .map_err(|e| de::Error::custom(format!("invalid base-58 string. Error: {:?}", e)))?;
-        let bytes_arr = <[u8; 32]>::try_from(<&[u8]>::clone(&&bytes[..]))
-            .map_err(|e| de::Error::custom(format!("Not 256-bit long. Error: {:?}", e)))?;
-        Ok(B58Pubkey(Pubkey::new_from_array(bytes_arr)))
+        let pk = Pubkey::from_str(value)
+            .map_err(|e| de::Error::custom(format!("Pubkey from_str error: {:?}", e)))?;
+        Ok(B58Pubkey(pk))
     }
 }
 
@@ -44,6 +59,22 @@ impl Serialize for B58Pubkey {
     where
         S: serde::Serializer,
     {
-        serializer.serialize_str(&bs58::encode(self.as_ref()).into_string())
+        serializer.serialize_str(&self.0.to_string())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    pub use super::*;
+
+    #[test]
+    pub fn b58_pubkey_serde_round_trip() {
+        let actual = Pubkey::new_unique();
+
+        let ser = serde_json::to_string(&B58Pubkey(actual)).unwrap();
+        assert_eq!(ser, format!("\"{}\"", actual));
+
+        let de: B58Pubkey = serde_json::from_str(&ser).unwrap();
+        assert_eq!(*de, actual);
     }
 }
