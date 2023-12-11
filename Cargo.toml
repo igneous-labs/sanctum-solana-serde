@@ -6,10 +6,10 @@ authors = ["sanctum"]
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/igneous-labs/sanctum-solana-serde.git"
 readme = "README.md"
-keywords = ["solana", "serde"]
+keywords = ["sanctum", "solana", "serde"]
 categories = ["Web programming", "HTTP client", "HTTP server"]
 
-include = ["/src", "/tests", "/README.md"]
+include = ["/src", "/README.md"]
 
 [package.metadata.docs.rs]
 all-features = true
