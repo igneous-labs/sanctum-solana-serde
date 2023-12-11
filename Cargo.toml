@@ -8,7 +8,7 @@ license = "MIT OR Apache-2.0"
 repository = "https://github.com/igneous-labs/sanctum-solana-serde.git"
 readme = "README.md"
 keywords = ["sanctum", "solana", "serde"]
-categories = ["Web programming", "HTTP client", "HTTP server"]
+categories = ["web-programming"]
 
 include = ["/src", "/README.md"]
 
