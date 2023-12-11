@@ -39,7 +39,7 @@ async fn get_swap_tx_from_jup(
         .json()
         .await
         .unwrap();
-    swap_transaction
+    swap_transaction.0
 }
 ```
 
