@@ -11,6 +11,7 @@ use solana_program::pubkey::Pubkey;
 #[derive(
     Clone,
     Copy,
+    Debug,
     Default,
     PartialEq,
     Eq,

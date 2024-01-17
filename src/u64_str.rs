@@ -8,6 +8,7 @@ use serde::{
 #[derive(
     Clone,
     Copy,
+    Debug,
     Default,
     PartialEq,
     Eq,
