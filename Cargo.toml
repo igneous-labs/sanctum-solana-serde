@@ -1,7 +1,7 @@
 [package]
 name = "sanctum-solana-serde"
 description = "Collection of newtypes for common solana types to implement serde on for easy use in web applications"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2021"
 authors = ["sanctum"]
 license = "MIT OR Apache-2.0"
