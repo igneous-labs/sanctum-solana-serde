@@ -5,7 +5,7 @@ use solana_sdk::transaction::VersionedTransaction;
 use super::b64_buffer::B64Buffer;
 
 /// base-64 encoded solana versioned transaction
-#[derive(Clone, Default, PartialEq, Eq, AsMut, AsRef, Deref, DerefMut, From, Into)]
+#[derive(Clone, Debug, Default, PartialEq, Eq, AsMut, AsRef, Deref, DerefMut, From, Into)]
 pub struct B64VersionedTx(pub VersionedTransaction);
 
 impl<'de> Deserialize<'de> for B64VersionedTx {

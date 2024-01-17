@@ -11,6 +11,7 @@ use solana_sdk::signature::Signature;
 #[derive(
     Clone,
     Copy,
+    Debug,
     Default,
     PartialEq,
     Eq,
